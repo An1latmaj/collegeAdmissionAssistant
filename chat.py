@@ -1,12 +1,9 @@
 from enum import Enum
 from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
-from dotenv import load_dotenv
 from typing import Dict, List, Optional
-import os
-import re
+import streamlit as st
 
-load_dotenv()
 
 
 class ConversationState(Enum):
@@ -27,8 +24,22 @@ class ConversationState(Enum):
 
 class NursingAdmissionBot:
     def __init__(self):
-        self.api_key = os.getenv("AZURE_API")
-        self.endpoint = os.getenv("AZURE_ENDPOINT")
+        # Updated to use Streamlit secrets
+        try:
+            self.api_key = st.secrets["AZURE_API"]
+            self.endpoint = st.secrets["AZURE_ENDPOINT"]
+        except KeyError as e:
+            st.error(f"Missing required secret: {e}")
+            st.stop()
+        except Exception:
+            # Fallback to environment variables for local development
+            self.api_key = os.getenv("AZURE_API")
+            self.endpoint = os.getenv("AZURE_ENDPOINT")
+            
+            if not self.api_key or not self.endpoint:
+                st.error("Azure credentials not found. Please configure Streamlit secrets or environment variables.")
+                st.stop()
+        
         self.model_name = "Llama-4-Maverick-17B-128E-Instruct-FP8"
 
         self.client = ChatCompletionsClient(
