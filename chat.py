@@ -47,6 +47,11 @@ class NursingAdmissionBot:
             api_version="2024-05-01-preview"
         )
 
+        self.responses = self.create_responses()
+        self.conversation_history = []
+        self.current_state = ConversationState.LANGUAGE_SELECTION
+        self.selected_language = 'en'
+
     def create_responses(self):
         return {
             'language_selection': {
@@ -630,6 +635,7 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
             }
         }
 
+    # Rest of the methods remain the same...
     def process_message(self, user_input: str) -> str:
         if self.current_state == ConversationState.LANGUAGE_SELECTION:
             return self.handle_language_selection(user_input)
@@ -745,7 +751,6 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
     def get_fallback_response(self, user_query: str) -> str:
         query_lower = user_query.lower()
 
-        # Specific general queries
         if any(phrase in query_lower for phrase in [
             'why should i choose', 'why choose this college', 'why this college', 'what makes this college',
             'benefits of this college', 'advantages of this college', 'why should i study here',
@@ -847,7 +852,7 @@ COLLEGE INFORMATION - B.Sc NURSING PROGRAM:
 • Labour Ministry Scholarships: ₹40,000-₹48,000 annually (requires Labour Registration)
 
 9. SEAT AVAILABILITY:
-�� Total 60 seats available
+• Total 60 seats available
 • Merit-based selection
 • First come, first served basis after meeting eligibility
 
@@ -948,4 +953,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
