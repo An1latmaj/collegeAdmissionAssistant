@@ -147,9 +147,9 @@ The model operates with a **low temperature setting (0.7)** to ensure:
 
 ## Technical Architecture
 
-- **CollegeInfoRAG**: Handles information retrieval and section parsing
-- **NursingAdmissionBot**: Main conversation management and state handling
-- **ConversationState**: Enum-based state management for conversation flow
+- **College Info RAG**: Handles information retrieval and section parsing
+- **Nursing Admission Bot**: Main conversation management and state handling
+- **Conversation State**: Enum-based state management for conversation flow
 - **Azure AI Integration**: LLM service integration for response generation
 
 This implementation demonstrates how sophisticated prompting techniques can create a reliable, efficient, and user-friendly admission assistance system while maintaining cost-effectiveness through optimal model selection.
