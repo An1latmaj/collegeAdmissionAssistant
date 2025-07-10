@@ -14,14 +14,14 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-        --primary-dark: #4a4a4a;
-        --primary-blue: #007AFF;
-        --light-blue: #eaf5ff;
-        --grey: #f0f0f0;
-        --text-color: #333333;
-        --white: #ffffff;
-        --shadow: rgba(0, 0, 0, 0.05);
-        --shadow-hover: rgba(0, 0, 0, 0.1);
+        --primary-dark: #0c2133;
+        --primary-blue: #0d4e9b;
+        --light-blue: #4397d3;
+        --grey: #fbfdfa;
+        --text-color: #0c2133;
+        --white: #fbfdfa;
+        --shadow: rgba(12, 33, 51, 0.05);
+        --shadow-hover: rgba(12, 33, 51, 0.1);
     }
 
     * {
@@ -73,7 +73,7 @@ st.markdown("""
     }
 
     .assistant-message {
-        background-color: var(--light-blue);
+        background-color: #e9f0f8;
         color: var(--text-color);
         margin-right: auto;
         border-bottom-left-radius: 4px;
@@ -146,7 +146,7 @@ st.markdown("""
     }
 
     .stButton > button:hover {
-        background-color: var(--light-blue);
+        background-color: #e9f0f8;
         border-color: var(--primary-blue);
         color: var(--primary-blue);
         transform: translateY(-2px);
@@ -193,7 +193,7 @@ st.markdown("""
 
     .status-text {
         text-align: center;
-        color: #666;
+        color: #0c2133;
         font-size: 14px;
         padding: 1rem 0;
     }
@@ -205,7 +205,7 @@ st.markdown("""
     .reset-button-container .stButton > button {
         background: transparent;
         border: none;
-        color: #888;
+        color: #4397d3;
         font-size: 13px;
         box-shadow: none;
     }
@@ -216,8 +216,8 @@ st.markdown("""
 
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #aaa; }
+    ::-webkit-scrollbar-thumb { background: #4397d3; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0d4e9b; }
 </style>
 """, unsafe_allow_html=True)
 def initialize_session_state():
