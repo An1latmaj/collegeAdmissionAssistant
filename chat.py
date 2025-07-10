@@ -53,7 +53,7 @@ class NursingAdmissionBot:
         self.current_state = ConversationState.LANGUAGE_SELECTION
         self.selected_language = 'en'
 
-    def create_responses(self):
+        def create_responses(self):
         return {
             'language_selection': {
                 'prompt': """
@@ -166,7 +166,7 @@ Press Enter to return to main menu...""",
 
 🎯 चयन प्रक्रिया:
 • मेरिट आधारित चयन
-• पहले ���ओ, पहले पाओ (योग्यता पूरी करने के बाद)
+• पहले आओ, पहले पाओ (योग्यता पूरी करने के बाद)
 • सीमित सीटें उपलब्ध (कुल 60)
 
 मुख्य मेनू पर वापस जाने के लिए Enter दबाएं...""",
@@ -249,7 +249,7 @@ Press Enter to return to main menu...""",
 • अस्पताल नर्सिंग पद
 • सामुदायिक स्वास्थ्य केंद्र
 • सरकारी नर्सिंग नौकरियां
-• निजी स्वास्थ्य सुव���धाएं
+• निजी स्वास्थ्य सुविधाएं
 • आगे की पढ़ाई: M.Sc नर्सिंग, विशेष कोर्स
 
 मुख्य मेनू पर वापस जाने के लिए Enter दबाएं...""",
@@ -402,7 +402,7 @@ Press Enter to return to main menu...""",
 
 🏨 हॉस्टल सुविधाएं:
 • 24x7 पानी और बिजली की आपूर्ति
-• सुरक्षा के लिए सीस���टीवी निगरानी
+• सुरक्षा के लिए सीसीटीवी निगरानी
 • छात्र सहायता के लिए वार्डन उपलब्ध
 • सुरक्षित और आरामदायक रहने का वातावरण
 
@@ -619,7 +619,7 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
 
             'exit_message': {
                 'en': "Thank you for using our Nursing College Admission Assistant! For more information, please contact our admission office. Good luck with your nursing career! 🏥",
-                'hi': "हमारे ��र्सिंग कॉलेज एडमिशन असिस्टेंट का उपयोग करने के लिए धन्यवाद! अधिक जानकारी के लिए, कृपया हमारे एडमिशन ऑफिस से संपर्क करें। आपके नर्सिंग करियर के लिए शुभकामनाएं! 🏥",
+                'hi': "हमारे नर्सिंग कॉलेज एडमिशन असिस्टेंट का उपयोग करने के लिए धन्यवाद! अधिक जानकारी के लिए, कृपया हमारे एडमिशन ऑफिस से संपर्क करें। आपके नर्सिंग करियर के लिए शुभकामनाएं! 🏥",
                 'hinglish': "Hamare Nursing College Admission Assistant ka use karne ke liye thank you! More information ke liye, please hamare admission office se contact kariye. Aapke nursing career ke liye best of luck! 🏥"
             },
 
@@ -751,18 +751,43 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
     def get_fallback_response(self, user_query: str) -> str:
         query_lower = user_query.lower()
 
+        # Specific general queries
+        if any(phrase in query_lower for phrase in [
+            'why should i choose', 'why choose this college', 'why this college', 'what makes this college',
+            'benefits of this college', 'advantages of this college', 'why should i study here',
+            'unique about this college', 'special about this college', 'best about this college',
+            'why select this college', 'क्यों चुनें', 'क्यों अच्छा', 'फायदा', 'विशेषता', 'अलग', 'unique', 'best', 'advantage', 'benefit', 'special', 'why us', 'हमारा कॉलेज क्यों', 'हम क्यों', 'हमारे कॉलेज की खासियत'
+        ]):
+            responses = {
+                'en': (
+                    "Our college stands out for its experienced faculty, modern facilities, and strong clinical training partnerships. "
+                    "We focus on holistic nursing education, hands-on hospital experience, and excellent student support. "
+                    "Graduates from our college are highly sought after in both government and private healthcare sectors. "
+                    "We also offer scholarships, career guidance, and a vibrant campus life. Choosing our college means investing in a bright future in nursing!"
+                ),
+                'hi': (
+                    "हमारे कॉलेज की खासियत है अनुभवी फैकल्टी, आधुनिक सुविधाएं और मजबूत क्लिनिकल ट्रेनिंग। "
+                    "हम समग्र नर्सिंग शिक्षा, अस्पताल में व्यावहारिक अनुभव और बेहतरीन छात्र सहायता पर ध्यान देते हैं। "
+                    "हमारे कॉलेज के स्नातक सरकारी और निजी दोनों क्षेत्रों में बहुत मांग में रहते हैं। "
+                    "हम छात्रवृत्ति, करियर मार्गदर्शन और जीवंत कैंपस जीवन भी प्रदान करते हैं। हमारे कॉलेज को चुनना आपके उज्ज्वल भविष्य में निवेश है!"
+                ),
+                'hinglish': (
+                    "Hamare college ki khasiyat hai experienced faculty, modern facilities aur strong clinical training. "
+                    "Yahan holistic nursing education, hospital mein hands-on experience aur student support milta hai. "
+                    "Graduates yahan se government aur private dono sectors mein demand mein hain. "
+                    "Scholarships, career guidance aur vibrant campus life bhi milta hai. Hamara college choose karna ek bright future ka investment hai!"
+                )
+            }
+            return responses[self.selected_language]
+
         if any(word in query_lower for word in ['scholarship', 'छात्रवृत्ति', 'financial', 'help']):
             return self.responses['scholarship_info'][self.selected_language]
-
         elif any(word in query_lower for word in ['fee', 'cost', 'price', 'फीस', 'पैसा']):
             return self.responses['fee_structure'][self.selected_language]
-
         elif any(word in query_lower for word in ['eligibility', 'qualify', 'योग्यता', 'biology']):
             return self.responses['eligibility_criteria'][self.selected_language]
-
         elif any(word in query_lower for word in ['hostel', 'accommodation', 'facility']):
             return self.responses['hostel_training'][self.selected_language]
-
         elif any(word in query_lower for word in ['location', 'where', 'delhi', 'स्थान']):
             return self.responses['location_info'][self.selected_language]
 
@@ -771,7 +796,6 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
             'hi': "मैं आपको हमारे B.Sc नर्सिंग प्रोग्राम के बारे में जानकारी दे सकता हूं जिसमें योग्यता, फीस, छात्रवृत्ति, सुविधाएं और बहुत कुछ शामिल है। कृपया नर्सिंग प्रोग्राम के बारे में कोई विशिष्ट प्रश्न पूछें।",
             'hinglish': "Main aapko hamare B.Sc Nursing program ke baare mein information de sakta hun including eligibility, fees, scholarships, facilities aur bahut kuch. Please nursing program ke baare mein koi specific question puchiye."
         }
-
         return fallback_responses[self.selected_language]
 
     def get_comprehensive_system_prompt(self) -> str:
@@ -897,14 +921,9 @@ Main menu par wapas jaane ke liye Enter press kariye..."""
 
 
 def main():
+    """Console version of the chatbot for testing"""
+    print("Testing Nursing Admission Bot...")
     bot = NursingAdmissionBot()
-
-    print("🏥" + "="*50 + "🏥")
-    print("   NURSING COLLEGE ADMISSION ASSISTANT")
-    print("🏥" + "="*50 + "🏥")
-
-    response = bot.start_conversation()
-    print(response, end="")
 
     while bot.current_state != ConversationState.COMPLETED:
         try:
@@ -935,3 +954,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
