@@ -149,3 +149,12 @@ The model operates with a **low temperature setting (0.7)** to ensure:
 - **Azure AI Integration**: LLM service integration for response generation
 
 This implementation demonstrates how sophisticated prompting techniques can create a reliable, efficient, and user-friendly admission assistance system while maintaining cost-effectiveness through optimal model selection.
+
+## Chat flow diagram
+![Flow](imgs/flow.png)
+
+## Chat examples
+![Image 1](imgs/img1.png)
+![Image 2](imgs/img2.png)
+![Image 3](imgs/img3.png)
+![Image 4](imgs/img4.png)
