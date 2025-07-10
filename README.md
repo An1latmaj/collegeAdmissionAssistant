@@ -155,6 +155,7 @@ The model operates with a **low temperature setting (0.7)** to ensure:
 This implementation demonstrates how sophisticated prompting techniques can create a reliable, efficient, and user-friendly admission assistance system while maintaining cost-effectiveness through optimal model selection.
 
 ## Chat flow diagram
+
 ![Flow](imgs/flow.png)
 
 ## Chat examples
