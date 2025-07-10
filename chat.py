@@ -2,9 +2,9 @@ from enum import Enum
 from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
 from typing import Dict, List, Optional
+import os
+import re
 import streamlit as st
-
-
 
 class ConversationState(Enum):
     LANGUAGE_SELECTION = "language_selection"
@@ -21,10 +21,9 @@ class ConversationState(Enum):
     AI_QUERY = "ai_query"
     COMPLETED = "completed"
 
-
 class NursingAdmissionBot:
     def __init__(self):
-        # Updated to use Streamlit secrets
+        # Use Streamlit secrets management
         try:
             self.api_key = st.secrets["AZURE_API"]
             self.endpoint = st.secrets["AZURE_ENDPOINT"]
@@ -35,11 +34,11 @@ class NursingAdmissionBot:
             # Fallback to environment variables for local development
             self.api_key = os.getenv("AZURE_API")
             self.endpoint = os.getenv("AZURE_ENDPOINT")
-            
+
             if not self.api_key or not self.endpoint:
                 st.error("Azure credentials not found. Please configure Streamlit secrets or environment variables.")
                 st.stop()
-        
+
         self.model_name = "Llama-4-Maverick-17B-128E-Instruct-FP8"
 
         self.client = ChatCompletionsClient(
@@ -48,12 +47,7 @@ class NursingAdmissionBot:
             api_version="2024-05-01-preview"
         )
 
-        self.responses = self.create_responses()
-        self.conversation_history = []
-        self.current_state = ConversationState.LANGUAGE_SELECTION
-        self.selected_language = 'en'
-
-        def create_responses(self):
+    def create_responses(self):
         return {
             'language_selection': {
                 'prompt': """
