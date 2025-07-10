@@ -4,6 +4,10 @@
 
 This project implements an intelligent conversational AI system designed to assist prospective students with nursing college admission inquiries. The chatbot leverages advanced prompting techniques and Retrieval-Augmented Generation (RAG) to provide accurate, contextual information about B.Sc Nursing programs.
 
+## 🚀 Live Demo
+
+[Click here to try the app](https://collegeadmissionassistant-zqytrmum3be57w8qp6b8eq.streamlit.app/)
+
 ## Objective
 
 The primary goal is to build a prompt-guided LLM that can effectively guide students through the nursing college application process by incorporating multiple sophisticated prompting techniques while maintaining reliable and integral information delivery.
