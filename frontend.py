@@ -18,8 +18,8 @@ st.markdown("""
         --primary-blue: #0d4e9b;
         --light-blue: #4397d3;
         --grey: #fbfdfa;
-        --text-color: #0c2133;
-        --white: #fbfdfa;
+        --text-color: #333333;
+        --white: #ffffff;
         --shadow: rgba(12, 33, 51, 0.05);
         --shadow-hover: rgba(12, 33, 51, 0.1);
     }
@@ -65,18 +65,49 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
 
+    /* User message styling - blue background with white text */
     .user-message {
-        background-color: var(--primary-blue);
-        color: white;
+        background-color: var(--primary-blue) !important;
+        color: white !important;
         margin-left: auto;
         border-bottom-right-radius: 4px;
     }
 
+    /* Force white text for all elements inside user message */
+    .user-message, .user-message * {
+        color: white !important;
+    }
+
+    /* Assistant message styling - white background with dark readable text */
     .assistant-message {
-        background-color: #e9f0f8;
-        color: var(--text-color);
+        background-color: #ffffff !important;
+        color: #333333 !important;
         margin-right: auto;
         border-bottom-left-radius: 4px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Force dark readable text for all elements inside assistant message */
+    .assistant-message * {
+        color: #333333 !important;
+    }
+
+    /* Specific targeting for any nested elements */
+    .assistant-message p,
+    .assistant-message div,
+    .assistant-message span,
+    .assistant-message strong,
+    .assistant-message em,
+    .assistant-message code,
+    .assistant-message pre,
+    .assistant-message h1,
+    .assistant-message h2,
+    .assistant-message h3,
+    .assistant-message h4,
+    .assistant-message h5,
+    .assistant-message h6 {
+        color: #333333 !important;
     }
 
     .page-title {
@@ -167,17 +198,24 @@ st.markdown("""
         border: 1px solid #e0e0e0;
     }
 
+    /* Fix text input styling */
     .stTextInput > div > div > input {
-        border: none;
+        border: none !important;
         background-color: transparent !important;
-        color: var(--text-color) !important;
-        font-size: 15px;
-        padding: 0.75rem;
+        color: #0000000;
+        font-size: 15px !important;
+        padding: 0.75rem !important;
     }
 
     .stTextInput > div > div > input:focus {
-        box-shadow: none;
-        outline: none;
+        box-shadow: none !important;
+        outline: none !important;
+        border: none !important;
+    }
+
+    .stTextInput > div > div {
+        border: none !important;
+        background-color: transparent !important;
     }
 
     .stButton > button.send-button {
@@ -220,6 +258,7 @@ st.markdown("""
     ::-webkit-scrollbar-thumb:hover { background: #0d4e9b; }
 </style>
 """, unsafe_allow_html=True)
+
 def initialize_session_state():
     if 'bot' not in st.session_state:
         st.session_state.bot = NursingAdmissionBot()
