@@ -11,45 +11,53 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-dark: #4a4a4a;
+        --primary-blue: #007AFF;
+        --light-blue: #eaf5ff;
+        --grey: #f0f0f0;
+        --text-color: #333333;
+        --white: #ffffff;
+        --shadow: rgba(0, 0, 0, 0.05);
+        --shadow-hover: rgba(0, 0, 0, 0.1);
+    }
 
     * {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .stApp {
-        background-color: #121212;
+        background-color: var(--grey);
     }
 
     .main .block-container {
-        padding: 2rem 4rem;
+        padding: 1rem 2rem;
         max-width: 1200px;
         margin: 0 auto;
-        background-color: #121212;
     }
 
-    header[data-testid="stHeader"] {
+    header[data-testid="stHeader"], section[data-testid="stSidebar"] {
         display: none;
     }
 
-    .main > div {
-        padding-top: 0;
-    }
-
-    section[data-testid="stSidebar"] {
-        display: none;
+    .messages-area {
+        overflow-y: auto;
+        padding-right: 10px;
+        flex-grow: 1;
+        margin-bottom: 1.5rem;
     }
 
     .chat-message {
-        padding: 1.25rem 1.75rem;
-        margin: 1rem 0;
-        border-radius: 24px;
+        padding: 0.8rem 1.2rem;
+        margin-bottom: 1rem;
+        border-radius: 18px;
         max-width: 75%;
         word-wrap: break-word;
         line-height: 1.6;
         font-size: 15px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        animation: fadeIn 0.3s ease-in;
+        animation: fadeIn 0.3s ease-out;
     }
 
     @keyframes fadeIn {
@@ -58,238 +66,160 @@ st.markdown("""
     }
 
     .user-message {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-color: var(--primary-blue);
         color: white;
         margin-left: auto;
-        margin-right: 0;
-        text-align: right;
-        border-bottom-right-radius: 8px;
+        border-bottom-right-radius: 4px;
     }
 
     .assistant-message {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        margin-left: 0;
+        background-color: var(--light-blue);
+        color: var(--text-color);
         margin-right: auto;
-        text-align: left;
-        border-bottom-left-radius: 8px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .page-title {
+        color: var(--primary-dark);
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .menu-container {
+        padding-top: 1rem;
+    }
+
+    /* Enhanced expander styling with stronger selectors for text color */
+    .st-emotion-cache-p5msec, div[data-testid="stExpander"] {
+        border-radius: 12px !important;
+        border: 1px solid #d0d0d0 !important;
+        box-shadow: 0 2px 4px var(--shadow);
+    }
+    .st-emotion-cache-p5msec:hover, div[data-testid="stExpander"]:hover {
+        box-shadow: 0 4px 8px var(--shadow-hover);
+    }
+    .st-emotion-cache-p5msec summary, div[data-testid="stExpander"] summary {
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        color: #000 !important;
+    }
+    /* Target every possible element within summary */
+    .st-emotion-cache-p5msec summary *, div[data-testid="stExpander"] summary * {
+        color: #000 !important;
+    }
+    /* Specific elements that might contain text */
+    .st-emotion-cache-p5msec summary p, div[data-testid="stExpander"] summary p,
+    .st-emotion-cache-p5msec summary span, div[data-testid="stExpander"] summary span,
+    .st-emotion-cache-p5msec summary div, div[data-testid="stExpander"] summary div,
+    .st-emotion-cache-p5msec summary label, div[data-testid="stExpander"] summary label {
+        color: #000 !important;
+    }
+    /* Target by class as well */
+    .st-emotion-cache-p5msec .st-emotion-cache-10trblm, div[data-testid="stExpander"] .st-emotion-cache-10trblm {
+        color: #000 !important;
+    }
+    .st-emotion-cache-p5msec summary:hover, div[data-testid="stExpander"] summary:hover {
+        color: var(--primary-blue) !important;
+    }
+    .st-emotion-cache-p5msec summary:hover *, div[data-testid="stExpander"] summary:hover * {
+        color: var(--primary-blue) !important;
+    }
+    .st-emotion-cache-p5msec [data-testid="stExpanderDetails"], div[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+        padding-top: 1rem;
     }
 
     .stButton > button {
-        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 1rem 1.5rem;
-        margin: 0.5rem 0;
-        color: #2d3748;
+        background-color: var(--white);
+        border: 1px solid #d0d0d0;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
         font-weight: 500;
-        font-size: 15px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 14px;
+        transition: all 0.2s ease;
         width: 100%;
-        height: auto;
-        min-height: 60px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        text-align: left;
+        box-shadow: 0 2px 4px var(--shadow);
+        margin-bottom: 0.5rem;
     }
 
     .stButton > button:hover {
-        background: linear-gradient(145deg, #f7fafc 0%, #edf2f7 100%);
-        border-color: #667eea;
+        background-color: var(--light-blue);
+        border-color: var(--primary-blue);
+        color: var(--primary-blue);
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-        color: #4a5568;
+        box-shadow: 0 4px 8px var(--shadow-hover);
     }
 
     .stButton > button:active {
         transform: translateY(0);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
-
-    .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        color: white;
-        font-weight: 600;
-    }
-
-    .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
-    }
-
-    .stButton > button[kind="secondary"] {
-        background: linear-gradient(145deg, #fed7d7 0%, #feb2b2 100%);
-        border: 1px solid #fc8181;
-        color: #c53030;
-        font-weight: 500;
-    }
-
-    .stButton > button[kind="secondary"]:hover {
-        background: linear-gradient(145deg, #fc8181 0%, #f56565 100%);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(245, 101, 101, 0.25);
-    }
-
-    .language-selection .stButton > button {
-        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
-        color: white;
-        border: none;
-        font-weight: 600;
-        min-height: 70px;
-        font-size: 16px;
-    }
-
-    .language-selection .stButton > button:hover {
-        background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(66, 153, 225, 0.3);
-    }
-
-    .stTextInput > div > div > input {
-        border-radius: 24px;
-        border: 2px solid #e2e8f0;
-        padding: 1rem 1.5rem;
-        font-size: 15px;
-        background: #ffffff !important;
-        color: #2d3748 !important;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
-
-    .stTextInput > div > div > input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        outline: none;
-        background: #ffffff !important;
-        color: #2d3748 !important;
-    }
-
-    .stTextInput > div > div > input::placeholder {
-        color: #a0aec0 !important;
     }
 
     .ai-input-container {
         display: flex;
-        align-items: flex-end;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        background-color: var(--white);
+        border-radius: 16px;
         margin-top: 1rem;
+        border: 1px solid #e0e0e0;
     }
 
-    .ai-input-container .stTextInput {
-        flex: 1;
-        margin-bottom: 0 !important;
+    .stTextInput > div > div > input {
+        border: none;
+        background-color: transparent !important;
+        color: var(--text-color) !important;
+        font-size: 15px;
+        padding: 0.75rem;
     }
 
-    .ai-input-container .stButton {
-        margin-bottom: 0 !important;
+    .stTextInput > div > div > input:focus {
+        box-shadow: none;
+        outline: none;
     }
 
-    .ai-input-container .stButton > button {
-        min-height: 50px !important;
-        height: 50px !important;
-        border-radius: 24px !important;
-        padding: 0 2rem !important;
+    .stButton > button.send-button {
+        background-color: var(--primary-blue);
+        color: white;
+        border-radius: 12px;
+        border: none;
+        height: 100%;
+    }
+    .stButton > button.send-button:hover {
+        opacity: 0.9;
     }
 
     .status-text {
-        color: #e2e8f0;
-        font-size: 16px;
         text-align: center;
-        margin: 2rem 0 1.5rem 0;
-        font-weight: 400;
-        letter-spacing: 0.025em;
+        color: #666;
+        font-size: 14px;
+        padding: 1rem 0;
     }
 
-    .page-title {
-        color: #ffffff;
-        font-size: 32px;
-        font-weight: 700;
+    .reset-button-container {
         text-align: center;
-        margin: 2rem 0 3rem 0;
-        letter-spacing: -0.025em;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        margin-top: 1rem;
+    }
+    .reset-button-container .stButton > button {
+        background: transparent;
+        border: none;
+        color: #888;
+        font-size: 13px;
+        box-shadow: none;
+    }
+    .reset-button-container .stButton > button:hover {
+        color: var(--primary-blue);
+        background: transparent;
     }
 
-    .chat-container {
-        min-height: 60vh;
-        background: #ffffff;
-        border-radius: 24px;
-        padding: 2rem;
-        margin: 2rem 0;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .menu-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1rem;
-        margin: 2rem 0;
-    }
-
-    .main-content {
-        padding-bottom: 2rem;
-    }
-
-    .stSpinner > div {
-        border-color: #667eea !important;
-    }
-
-    .conversation-container {
-        background: #ffffff;
-        border-radius: 24px;
-        padding: 2rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        border: 1px solid #f1f5f9;
-    }
-
-    @media (max-width: 768px) {
-        .main .block-container {
-            padding: 1rem 2rem;
-        }
-        
-        .chat-message {
-            max-width: 90%;
-            padding: 1rem 1.25rem;
-            font-size: 14px;
-        }
-        
-        .page-title {
-            font-size: 24px;
-            margin: 1rem 0 2rem 0;
-        }
-        
-        .conversation-container {
-            padding: 1.5rem;
-            margin: 0.5rem 0;
-        }
-    }
-
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #aaa; }
 </style>
 """, unsafe_allow_html=True)
-
 def initialize_session_state():
     if 'bot' not in st.session_state:
         st.session_state.bot = NursingAdmissionBot()
@@ -297,213 +227,156 @@ def initialize_session_state():
         st.session_state.messages = []
     if 'conversation_started' not in st.session_state:
         st.session_state.conversation_started = False
-    if 'ai_mode' not in st.session_state:
-        st.session_state.ai_mode = False
+
 
 def display_message(message, is_user=False):
-    if is_user:
-        st.markdown(f"""
-        <div class="chat-message user-message">
-            {message}
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown(f"""
-        <div class="chat-message assistant-message">
-            {message.replace(chr(10), '<br>')}
-        </div>
-        """, unsafe_allow_html=True)
+    align_class = "user-message" if is_user else "assistant-message"
+    st.markdown(f"""
+    <div class="chat-message {align_class}">
+        {message.replace(chr(10), '<br>')}
+    </div>
+    """, unsafe_allow_html=True)
+
 
 def handle_language_selection():
-    st.markdown('<div class="status-text">Please select your preferred language</div>', unsafe_allow_html=True)
+    st.markdown('<div class="status-text">Please select your language</div>', unsafe_allow_html=True)
+    cols = st.columns(3)
+    lang_map = {"1": "🇬🇧 English", "2": "🇮🇳 हिंदी", "3": "🌍 Hinglish"}
+    for i, (value, label) in enumerate(lang_map.items()):
+        with cols[i]:
+            if st.button(label, key=f"lang_{value}"):
+                process_bot_response(value)
 
-    st.markdown('<div class="language-selection">', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1, 1], gap="medium")
 
-    with col1:
-        if st.button("English", key="lang_en"):
-            process_bot_response("1")
+def handle_main_menu():
+    menu_categories = {
+        "About the Program": [
+            ("📚 Program Details", "2"),
+            ("📋 Eligibility Criteria", "1"),
+            ("✅ Recognition", "6"),
+        ],
+        "Costs & Financial Aid": [
+            ("💰 Fee Structure", "3"),
+            ("🎓 Scholarships", "8"),
+        ],
+        "Campus & Training": [
+            ("🏠 Facilities", "4"),
+            ("📍 Location", "5"),
+            ("🏥 Clinical Training", "7"),
+        ],
+        "Admission Info": [
+            ("🪑 Seat Availability", "9"),
+            ("📊 View Summary", "11"),
+        ],
+        "Other Actions": [
+            ("🤖 Ask AI Assistant", "10"),
+            ("🚪 Exit", "0"),
+        ]
+    }
 
-    with col2:
-        if st.button("हिंदी", key="lang_hi"):
-            process_bot_response("2")
+    st.markdown('<div class="menu-container">', unsafe_allow_html=True)
 
-    with col3:
-        if st.button("Hinglish", key="lang_hinglish"):
-            process_bot_response("3")
+    category_items = list(menu_categories.items())
+
+    # Create two columns for the expanders
+    col1, col2 = st.columns(2)
+
+    # Distribute categories into the two columns
+    for i, (category, options) in enumerate(category_items):
+        target_col = col1 if i % 2 == 0 else col2
+        with target_col:
+            with st.expander(category):
+                for label, value in options:
+                    if st.button(label, key=f"menu_{value}", use_container_width=True):
+                        process_bot_response(value)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-def create_menu_button(label, value, help_text=""):
-    button_html = f"""
-    <div class="menu-button" onclick="selectOption('{value}')" title="{help_text}">
-        {label}
-    </div>
-    """
-    return button_html
-
-def handle_main_menu():
-    st.markdown('<div class="status-text">What would you like to know about our B.Sc Nursing Program?</div>', unsafe_allow_html=True)
-
-    menu_options = [
-        ("Eligibility Criteria", "1"),
-        ("Program Details", "2"),
-        ("Fee Structure", "3"),
-        ("Hostel & Training", "4"),
-        ("College Location", "5"),
-        ("Recognition & Accreditation", "6"),
-        ("Clinical Training", "7"),
-        ("Scholarship Options", "8"),
-        ("Seat Availability", "9"),
-        ("Complete Summary", "11"),
-        ("Ask AI Assistant", "10"),
-        ("Exit Conversation", "0")
-    ]
-
-    col1, col2 = st.columns(2, gap="medium")
-
-    for i, (label, value) in enumerate(menu_options):
-        with col1 if i % 2 == 0 else col2:
-            if st.button(label, key=f"menu_{value}"):
-                process_bot_response(value)
 
 def process_bot_response(user_input):
-    if user_input not in ["1", "2", "3"] or st.session_state.bot.current_state != ConversationState.LANGUAGE_SELECTION:
+    if st.session_state.bot.current_state != ConversationState.AI_QUERY:
         action_map = {
-            "1": "Eligibility Criteria" if st.session_state.bot.current_state == ConversationState.MAIN_MENU else "English",
-            "2": "Program Details" if st.session_state.bot.current_state == ConversationState.MAIN_MENU else "Hindi",
-            "3": "Fee Structure" if st.session_state.bot.current_state == ConversationState.MAIN_MENU else "Hinglish",
-            "4": "Hostel & Training",
-            "5": "College Location",
-            "6": "Recognition & Accreditation",
-            "7": "Clinical Training",
-            "8": "Scholarship Options",
-            "9": "Seat Availability",
-            "10": "AI Assistant",
-            "11": "Complete Summary",
-            "0": "Exit"
+            "1": "Eligibility Criteria", "2": "Program Details", "3": "Fee Structure",
+            "4": "Hostel & Training", "5": "College Location", "6": "Recognition",
+            "7": "Clinical Training", "8": "Scholarships", "9": "Seat Availability",
+            "10": "AI Assistant", "11": "Complete Summary", "0": "Exit"
         }
+        if st.session_state.bot.current_state == ConversationState.LANGUAGE_SELECTION:
+            lang_map = {"1": "English", "2": "Hindi", "3": "Hinglish"}
+            display_text = lang_map.get(user_input)
+        else:
+            display_text = action_map.get(user_input)
 
-        display_text = action_map.get(user_input, user_input)
-        st.session_state.messages.append({
-            'content': display_text,
-            'is_user': True
-        })
+        if display_text:
+            st.session_state.messages.append({'content': display_text, 'is_user': True})
 
     bot_response = st.session_state.bot.process_message(user_input)
-
-    st.session_state.messages.append({
-        'content': bot_response,
-        'is_user': False
-    })
-
-    if st.session_state.bot.current_state == ConversationState.AI_QUERY:
-        st.session_state.ai_mode = True
-    else:
-        st.session_state.ai_mode = False
-
+    st.session_state.messages.append({'content': bot_response, 'is_user': False})
     st.rerun()
 
+
 def handle_ai_input():
-    st.markdown('<div class="status-text">AI Assistant Mode - Ask me anything about the nursing program</div>', unsafe_allow_html=True)
+    if st.button("🔙 Return to Menu", key="return_menu"):
+        process_bot_response("menu")
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    st.markdown('<div class="ai-input-container">', unsafe_allow_html=True)
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        user_input = st.text_input(
+            "Message", placeholder="Ask a question...", key="ai_message", label_visibility="collapsed"
+        )
     with col2:
-        if st.button("Return to Menu", key="return_menu", type="primary"):
-            process_bot_response("menu")
+        send_button = st.button("Send", type="primary", key="send_ai", use_container_width=True)
+        st.markdown(
+            '<style>.stButton button[key="send_ai"] { background-color: var(--primary-blue); color: white; border-radius: 12px; border: none; height: 100%; } .stButton button[key="send_ai"]:hover { opacity: 0.9; color: white; border: none;}</style>',
+            unsafe_allow_html=True)
 
-def render_bottom_input():
-    if st.session_state.bot.current_state == ConversationState.AI_QUERY:
-        st.markdown("---")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('<div class="ai-input-container">', unsafe_allow_html=True)
+    if send_button and user_input.strip():
+        st.session_state.messages.append({'content': user_input, 'is_user': True})
+        with st.spinner("🤔 Thinking..."):
+            bot_response = st.session_state.bot.process_message(user_input)
+        st.session_state.messages.append({'content': bot_response, 'is_user': False})
+        st.rerun()
 
-        col1, col2 = st.columns([5, 1], gap="small")
-
-        with col1:
-            user_input = st.text_input(
-                "Message",
-                placeholder="Type your question here...",
-                key="ai_message",
-                label_visibility="collapsed"
-            )
-
-        with col2:
-            send_button = st.button("Send", type="primary", key="send_ai")
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        if send_button and user_input.strip():
-            st.session_state.messages.append({
-                'content': user_input,
-                'is_user': True
-            })
-
-            with st.spinner("Thinking..."):
-                bot_response = st.session_state.bot.process_message(user_input)
-
-            st.session_state.messages.append({
-                'content': bot_response,
-                'is_user': False
-            })
-
-            st.rerun()
 
 def main():
     initialize_session_state()
+    st.markdown('<div class="page-title">🏥 Nursing Admission Assistant</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="page-title">Nursing College Admission Assistant</div>', unsafe_allow_html=True)
+    # Messages Area - directly in the main container without the extra chat-container
+    st.markdown('<div class="messages-area">', unsafe_allow_html=True)
+    if not st.session_state.conversation_started:
+        welcome_message = st.session_state.bot.start_conversation()
+        st.session_state.messages.append({'content': welcome_message, 'is_user': False})
+        st.session_state.conversation_started = True
+        st.rerun()
+    else:
+        for message in st.session_state.messages:
+            display_message(message['content'], message['is_user'])
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    with st.container():
-        st.markdown('<div class="conversation-container">', unsafe_allow_html=True)
+    # Input/Menu Area
+    current_state = st.session_state.bot.current_state
+    if current_state == ConversationState.COMPLETED:
+        st.markdown('<div class="status-text">Conversation ended.</div>', unsafe_allow_html=True)
+    elif current_state == ConversationState.LANGUAGE_SELECTION:
+        handle_language_selection()
+    elif current_state == ConversationState.MAIN_MENU:
+        handle_main_menu()
+    elif current_state == ConversationState.AI_QUERY:
+        handle_ai_input()
 
-        if st.session_state.messages:
-            for message in st.session_state.messages:
-                display_message(message['content'], message['is_user'])
-        else:
-            if not st.session_state.conversation_started:
-                welcome_message = st.session_state.bot.start_conversation()
-                st.session_state.messages.append({
-                    'content': welcome_message,
-                    'is_user': False
-                })
-                st.session_state.conversation_started = True
-                st.rerun()
+    # Reset Button
+    st.markdown('<div class="reset-button-container">', unsafe_allow_html=True)
+    if st.button("🔄 Start Over"):
+        st.session_state.bot = NursingAdmissionBot()
+        st.session_state.messages = []
+        st.session_state.conversation_started = False
+        st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        if st.session_state.bot.current_state == ConversationState.COMPLETED:
-            st.markdown('<div class="status-text">Conversation completed. Thank you for using our service!</div>', unsafe_allow_html=True)
-            col1, col2, col3 = st.columns([1, 2, 1])
-            with col2:
-                if st.button("Start New Conversation", type="primary"):
-                    st.session_state.bot = NursingAdmissionBot()
-                    st.session_state.messages = []
-                    st.session_state.conversation_started = False
-                    st.session_state.ai_mode = False
-                    st.rerun()
-
-        elif st.session_state.bot.current_state == ConversationState.LANGUAGE_SELECTION:
-            handle_language_selection()
-
-        elif st.session_state.bot.current_state == ConversationState.MAIN_MENU:
-            handle_main_menu()
-
-        elif st.session_state.bot.current_state == ConversationState.AI_QUERY:
-            handle_ai_input()
-
-    if st.session_state.bot.current_state == ConversationState.AI_QUERY:
-        render_bottom_input()
-
-    st.markdown("---")
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        if st.button("Reset Conversation", type="secondary"):
-            st.session_state.bot = NursingAdmissionBot()
-            st.session_state.messages = []
-            st.session_state.conversation_started = False
-            st.session_state.ai_mode = False
-            st.rerun()
 
 if __name__ == "__main__":
     main()
