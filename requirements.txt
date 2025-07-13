@@ -1,9 +1,4 @@
-# Core Framework
-streamlit>=1.46.1
-
-# Azure AI Services
-azure-ai-inference>=1.0.0b1
-azure-core>=1.35.0
-
-# Python Utilities
-typing-extensions>=4.8.0
+streamlit~=1.39.0
+openai~=1.95.1
+azure-core~=1.32.0
+python-dotenv~=1.1.1
