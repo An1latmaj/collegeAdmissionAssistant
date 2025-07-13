@@ -63,13 +63,3 @@ def chat_with_bot(user_input):
 
     return ai_response
 
-if __name__ == "__main__":
-    print("Welcome to the Nursing College Admission Chatbot!")
-    print(f"Bot: {chat_with_bot("initiate chat")}")
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() in ["exit", "quit"]:
-            print("Exiting the chat. Goodbye!")
-            break
-        response = chat_with_bot(user_input)
-        print(f"Bot: {response}")
