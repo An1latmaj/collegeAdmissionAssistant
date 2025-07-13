@@ -2,9 +2,9 @@
 
 ## Overview
 
-This project implements an intelligent conversational AI system designed to assist prospective students with nursing college admission inquiries. The chatbot leverages advanced prompting techniques and Retrieval-Augmented Generation (RAG) to provide accurate, contextual information about B.Sc Nursing programs.
+This project implements an intelligent conversational AI system designed to assist prospective students with nursing college admission inquiries. The chatbot leverages advanced prompting techniques to provide accurate, contextual information about B.Sc Nursing program.
 
-## 🚀 Live Demo
+## Live Demo
 
 [Click here to try the app](https://collegeadmissionassistant-zqytrmum3be57w8qp6b8eq.streamlit.app/)
 
@@ -12,154 +12,102 @@ This project implements an intelligent conversational AI system designed to assi
 
 The primary goal is to build a prompt-guided LLM that can effectively guide students through the nursing college application process by incorporating multiple sophisticated prompting techniques while maintaining reliable and integral information delivery.
 
-## Model Selection: Llama-4-Maverick-17B
+## Model Selection: GPT 4o mini
 
-**Llama Maverick** was specifically chosen for this implementation due to:
+**GPT 4o mini** was specifically chosen for this implementation due to:
 
 - **Cost Efficiency**: Significantly lower operational costs compared to larger models
-- **Optimal Model Size**: 17B parameters provide sufficient capability for conversational tasks without unnecessary overhead
 - **Task-Specific Performance**: Perfectly suited for structured dialogue and information retrieval tasks
 - **Resource Optimization**: Efficient enough to handle this specific use case without requiring extensive computational resources
 
 The model strikes an ideal balance between performance and efficiency, making it the perfect choice for this nursing admission assistant application.
 
-## Advanced Prompting Techniques
 
-### 1. Role-Based Prompting
-The system establishes a clear AI persona as a "Nursing College Admission Counselor," ensuring consistent and professional responses throughout the conversation.
-
-### 2. Phase-Based Conversational Design
-Structured conversation flow through distinct phases:
-- Greeting & Language Selection
-- Main Menu Navigation  
-- Information Delivery
-- AI Assistant Mode
-- Conversation Closure
-
-### 3. Multi-Example Prompting
-Explicit pattern definitions for intent recognition:
-
-**Positive Response Patterns:**
-- English: 'Yes', 'Sure', 'Tell me more', 'Okay', 'I'm interested'
-- Hindi: 'Haan', 'Acha', 'Batao', 'Theek hai', 'Jaanna chahta hun'
-- Hinglish: Mixed patterns combining both languages
-
-**Negative Response Patterns:**
-- English: 'No', 'Not interested', 'Maybe later'
-- Hindi: 'Nahi', 'Interest nahi hai', 'Baad mein'
-
-### 4. Constraint-Based Prompting
-Clear boundaries and limitations are set:
-- Responses limited to nursing program and admission-related topics
-- Mandatory language consistency throughout conversations
-- Structured redirection for off-topic queries
-
-### 5. Intent Detection & Pattern Recognition
-The system uses sophisticated pattern matching to identify user intentions:
-
+## Base Prompt:
 ```
-POSITIVE INTENT:
-User: "Haan batao college ke baare mein"
-Detection: Positive (contains "Haan" + "batao")
-Action: Continue to next conversation step
+You are an admission consultant for a nursing college. Your task is to guide prospective nursing students through the admission process by providing them the relevant information needed and as asked. You are able to converse in multiple languages so at the start of this conversation ask the user which language they are comfortable in and then translate the college information in the set user language according to their queries.
 
-NEGATIVE INTENT:
-User: "Nahi yaar, not interested"
-Detection: Negative (contains "Nahi" + "not interested")
-Action: Polite conversation closure
+Steps:
+Always start with a welcome message stating your purpose as an admission consultant for a nursing college. Ask the user which language they are comfortable in and then proceed to converse in that language.
+Initial admission interest ask the user if they are interested in applying for the nursing college. If they say yes, proceed to ask them about their eligibility criteria. if they say no ask them if they still want to know more details about the college.
+Confirm that the user has done biology in 12th grade and let them know that passing PNT requirements is mandatory. 
+And they let them know they must be in the age range of 17-35. If the user did not take biology in class 12th or is not in the age range.
+Let them know that its a mandatory requirement and they won't be able to apply for the nursing college and ask if they still want to know more details about the college.
 
-UNCLEAR INTENT:
-User: "Hmm, pata nahi"
-Detection: Unclear (hesitation words)
-Action: Ask for clarification
+Once the eligibility check is done we proceed to the next phase of information provision. Start by giving them Program information then provide a list showing available information that is 1. Fee Structure 2.Hostel facilities 3.Training 4. Scholarship options 5. Hospital Training details in last line type "exit" or "quit" to end the chat.display the list at the end of every message.
+
+College Information:
+Eligibility: Biology in 12th grade (mandatory), Must pass PNT Exam, Age: 17-35 years
+Program: B.Sc Nursing (full-time), 60 seats, Delhi
+Fees: ₹70,000 annual (₹60k tuition + ₹10k bus), divided into 3 installments
+1st Installment: ₹30,000 (at admission)
+2nd Installment: ₹20,000 (after first semester)
+3rd Installment: ₹20,000 (after second semester)
+Hostel: 24x7 water and electricity, CCTV surveillance, on-site warden
+Training: Hospital training with real patients at District Hospital (Backundpur), Community Health Centers, Regional Hospital (Chartha), Ranchi Neurosurgery and Allied Science Hospital (Ranchi, Jharkhand)
+Scholarships: Government Post-Matric (₹18k–₹23k), Labour Ministry (₹40k–₹48k) for students with Labour Registration
+Accreditation: Recognized by Indian Nursing Council (INC), Delhi
+Location Info: College located in Delhi
+
+
+**Only provide the information given in College Information section. Do not add on to it as it will dilute the integrity of the information provided.**
+**Only answer questions related to the nursing college and its admission process. If the user asks about other topics, politely inform them that you can only assist with topics related to nursing college admissions.**
 ```
 
-## Core System Prompt
+## Prompting Techniques Used:
+- The base prompt was carefully crafted using multiple intricate prompting techniques allowing us to achieve the desired chat flow.
 
+### 1. **Role-Based Prompting**
+**Cited Text:** `"You are an admission consultant for a nursing college."`
+- Establishes the AI's identity and authority in the domain
+
+### 2. **Task Definition**
+**Cited Text:** `"Your task is to guide prospective nursing students through the admission process by providing them the relevant information needed and as asked."`
+- Clearly defines the specific purpose and scope of the AI's function
+
+### 3. **Multi-Modal Capability Declaration**
+**Cited Text:** `"You are able to converse in multiple languages so at the start of this conversation ask the user which language they are comfortable in and then translate the college information in the set user language according to their queries."`
+- Specifies language adaptation capabilities and user preference handling
+
+### 4. **Step-by-Step Workflow Instructions**
+**Cited Text:** 
 ```
-You are an AI admission counselor for a Nursing College. Always respond in {selected_language}.
-
-RELEVANT COLLEGE INFORMATION: {relevant_info}
-
-CONVERSATION PHASES:
-1. Greeting & Language Selection
-2. Main Menu Navigation
-3. Information Delivery
-4. AI Assistant Mode
-5. Conversation Closure
-
-ROLES & GUIDELINES:
-- Be professional, helpful, and concise
-- Provide accurate information only from the given context
-- If asked about topics not in the context, redirect: "I can only answer questions related to the nursing program and admission process"
-- Always maintain the specified language throughout
-- Ask follow-up questions to guide the conversation forward
-
-INTENT DETECTION EXAMPLES:
-[Detailed examples for positive, negative, and unclear intents]
-
-CONVERSATION CLOSURE EXAMPLES:
-[Specific templates for different closure scenarios]
+"Steps:
+Always start with a welcome message stating your purpose as an admission consultant for a nursing college. Ask the user which language they are comfortable in and then proceed to converse in that language.
+Initial admission interest ask the user if they are interested in applying for the nursing college..."
 ```
+- Provides structured conversation flow with clear sequential steps
 
-## RAG Implementation
+### 5. **Conditional Logic/Branching**
+**Cited Text:** `"If they say yes, proceed to ask them about their eligibility criteria. if they say no ask them if they still want to know more details about the college."`
+- Implements decision trees for different user responses
 
-The system implements Retrieval-Augmented Generation to:
-- Store college information in a separate file (`college_info.txt`)
-- Retrieve relevant information based on query keywords
-- Keep prompts clean and token-efficient
-- Ensure accurate, up-to-date information delivery
+### 6. **Information Grounding**
+**Cited Text:** 
+```
+"College Information:
+Eligibility: Biology in 12th grade (mandatory), Must pass PNT Exam, Age: 17-35 years
+Program: B.Sc Nursing (full-time), 60 seats, Delhi..."
+```
+- Provides comprehensive factual data as the knowledge base
 
-### Information Categories
-- Eligibility Criteria
-- Program Details
-- Fee Structure
-- Hostel & Training Facilities
-- College Location
-- Recognition & Accreditation
-- Clinical Training Locations
-- Scholarship Options
-- Seat Availability
+### 7. **Output Formatting Instructions**
+**Cited Text:** `"provide a list showing available information that is 1. Fee Structure 2.Hostel facilities 3.Training 4. Scholarship options 5. Hospital Training details in last line type "exit" or "quit" to end the chat.display the list at the end of every message."`
+- Specifies exact presentation format and structure
 
-## Multi-Language Support
+### 8. **Constraint-Based Prompting (Guardrails)**
+**Cited Text:** 
+```
+"**Only provide the information given in College Information section. Do not add on to it as it will dilute the integrity of the information provided.**
+**Only answer questions related to the nursing college and its admission process. If the user asks about other topics, politely inform them that you can only assist with topics related to nursing college admissions.**"
+```
+- Sets strict boundaries to maintain accuracy and prevent scope creep
 
-The system supports three language modes:
-- **English**: Complete English responses
-- **Hindi**: Native Hindi language support
-- **Hinglish**: Hindi-English code-mixing for natural communication
+### 9. **Eligibility Validation Logic**
+**Cited Text:** `"If the user did not take biology in class 12th or is not in the age range. Let them know that its a mandatory requirement and they won't be able to apply for the nursing college and ask if they still want to know more details about the college."`
+- Implements qualification checking with specific rejection criteria
 
-## Temperature Configuration
+### 10. **Progressive Information Disclosure**
+**Cited Text:** `"Once the eligibility check is done we proceed to the next phase of information provision. Start by giving them Program information then provide a list..."`
+- Creates a phased approach to information sharing based on user progression
 
-The model operates with a **low temperature setting (0.7)** to ensure:
-- Deterministic responses
-- Consistent information delivery
-- Reliable pattern recognition
-- Professional conversation tone
-
-## Key Features
-
-- **Structured Menu Navigation**: Organized information access through numbered menus
-- **Context-Aware Responses**: RAG-powered relevant information retrieval
-- **Intent Recognition**: Advanced pattern matching for user intention detection
-- **Graceful Conversation Closure**: Professional handling of negative or unclear responses
-- **Language Consistency**: Maintains selected language throughout the session
-- **Error Handling**: Robust fallback mechanisms for unexpected inputs
-
-## Technical Architecture
-
-- **College Info RAG**: Handles information retrieval and section parsing
-- **Nursing Admission Bot**: Main conversation management and state handling
-- **Conversation State**: Enum-based state management for conversation flow
-- **Azure AI Integration**: LLM service integration for response generation
-
-This implementation demonstrates how sophisticated prompting techniques can create a reliable, efficient, and user-friendly admission assistance system while maintaining cost-effectiveness through optimal model selection.
-
-## Chat flow diagram
-
-![Flow](imgs/flow.png)
-
-## Chat examples
-![Image 1](imgs/img1.png)
-![Image 2](imgs/img2.png)
-![Image 3](imgs/img3.png)
-![Image 4](imgs/img4.png)
