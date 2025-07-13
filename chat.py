@@ -1,7 +1,7 @@
-from openai import AzureOpenAI
 import streamlit as st
+from openai import AzureOpenAI
 
-endpoint = st.secrets["AZURE_ENDPOINT"]
+endpoint = st.secrets['AZURE_ENDPOINT']
 model_name = "o4-mini"
 deployment = "o4-mini"
 
@@ -41,25 +41,30 @@ Location Info: College located in Delhi
 
 
 **Only provide the information given in College Information section. Do not add on to it as it will dilute the integrity of the information provided.**
-**Only answer questions related to the nursing college and its admission process. If the user asks about other topics, politely inform them that you can only assist with topics related to nursing college admissions.**
+**Only answer questions related to the nursing college and its admission process.**
+**If the user asks about other topics, politely inform them that you can only assist with topics related to nursing college admissions. and show them the list of available information again.**
 """
 
-
-messages = [{
-    "role":"system","content":system_prompt
-}]
-
 def chat_with_bot(user_input):
-    messages.append({
-        "role":"user","content": user_input
+    if "chat_messages" not in st.session_state:
+        st.session_state.chat_messages = [{"role": "system", "content": system_prompt}]
+
+    st.session_state.chat_messages.append({
+        "role": "user", "content": user_input
     })
-    response = client.chat.completions.create( #chat completions is used to handle multi turn conversations
-        messages=messages,
+
+    response = client.chat.completions.create(
+        messages=st.session_state.chat_messages,
         max_completion_tokens=1000,
         model=deployment,
     )
-    ai_response= response.choices[0].message.content
-    messages.append({"role":"assistant","content": ai_response})
+
+    ai_response = response.choices[0].message.content
+
+    st.session_state.chat_messages.append({
+        "role": "assistant", "content": ai_response
+    })
 
     return ai_response
+
 
