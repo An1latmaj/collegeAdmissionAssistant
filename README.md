@@ -112,7 +112,7 @@ Program: B.Sc Nursing (full-time), 60 seats, Delhi..."
 - Creates a phased approach to information sharing based on user progression
 
 ## Flow Diagram
-![Conversational Flow](flow.png)
+![Flow Diagram](./imgs/flow.png)
 
 ## Example Conversation Flows
 
