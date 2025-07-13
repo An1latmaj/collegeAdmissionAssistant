@@ -111,3 +111,225 @@ Program: B.Sc Nursing (full-time), 60 seats, Delhi..."
 **Cited Text:** `"Once the eligibility check is done we proceed to the next phase of information provision. Start by giving them Program information then provide a list..."`
 - Creates a phased approach to information sharing based on user progression
 
+## Flow Diagram
+![Conversational Flow](flow.png)
+
+## Example Conversation Flows
+
+### Flow 1: Successful English Language Student
+
+```
+Bot: Hello! Welcome to the Nursing College Admission Consultant Service. I'm here to guide you through our nursing college admission process.
+
+Which language are you comfortable in? Please choose your preferred language (for example, English or Hindi).
+
+User: English
+
+Bot: Great! Are you interested in applying for our B.Sc Nursing program at the college? (Yes/No)
+
+User: Yes, I am very interested
+
+Bot: To check your eligibility:
+
+1. Have you completed Biology in 12th grade?
+2. Are you between 17 and 35 years of age?
+3. Please note that passing the PNT exam is mandatory.
+
+Please confirm these points so we can proceed.
+
+User: Yes, I have Biology and I'm 20 years old
+
+Bot: Excellent! You meet the eligibility criteria.
+
+Program Information
+B.Sc Nursing (full-time), 60 seats, Delhi
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: 1
+
+Bot: Fee Structure
+• Annual Fees: ₹70,000 (₹60,000 tuition + ₹10,000 bus)
+• Payment in 3 installments:
+– 1st Installment: ₹30,000 (at admission)
+– 2nd Installment: ₹20,000 (after first semester)
+– 3rd Installment: ₹20,000 (after second semester)
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: 4
+
+Bot: Scholarship Options
+• Government Post-Matric: ₹18,000–₹23,000
+• Labour Ministry: ₹40,000–₹48,000 (for students with Labour Registration)
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: Thank you, that's all I needed
+
+Bot: Thank you for your time! If you have any further questions in the future, feel free to reach out. Goodbye.
+```
+
+### Flow 2: Hindi Language User with Ineligible Candidate
+
+```
+Bot: Hello! Welcome to the Nursing College Admission Consultant Service. I'm here to guide you through our nursing college admission process.
+
+Which language are you comfortable in? Please choose your preferred language (for example, English or Hindi).
+
+User: Hindi mein baat karte hain
+
+Bot: बहुत बढ़िया! क्या आप हमारे कॉलेज में B.Sc Nursing कार्यक्रम के लिए आवेदन देने में रुचि रखते हैं? (हां/नहीं)
+
+User: Haan bilkul
+
+Bot: आपकी पात्रता जांचने के लिए:
+
+1. क्या आपने 12वीं कक्षा में Biology पढ़ी है?
+2. क्या आपकी उम्र 17 से 35 साल के बीच है?
+3. कृपया ध्यान दें कि PNT परीक्षा पास करना अनिवार्य है।
+
+कृपया इन बिंदुओं की पुष्टि करें ताकि हम आगे बढ़ सकें।
+
+User: Maine PCM liya tha 12th mein, biology nahi li thi. Age 22 hai
+
+Bot: मुझे खुशी होगी, लेकिन 12वीं कक्षा में Biology एक अनिवार्य आवश्यकता है B.Sc Nursing में प्रवेश के लिए। Biology के बिना, आप हमारे नर्सिंग कॉलेज कार्यक्रम के लिए आवेदन नहीं कर सकेंगे।
+
+क्या आप अभी भी भविष्य के संदर्भ के लिए या किसी और के लिए कॉलेज के बारे में और विवरण जानना चाहेंगे?
+
+User: Nahi, dhanyawad
+
+Bot: आपके समय के लिए धन्यवाद! यदि भविष्य में आपके कोई और प्रश्न हैं, तो बेझिझक संपर्क करें। अलविदा।
+```
+
+### Flow 3: Off-Topic Query Handling
+
+```
+Bot: Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: Do you have engineering courses?
+
+Bot: I'm sorry, but I can only assist with admissions and details for our nursing college program.
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: 3
+
+Bot: Training
+• Hospital training with real patients at:
+– District Hospital (Backundpur)
+– Community Health Centers
+– Regional Hospital (Chartha)
+– Ranchi Neurosurgery and Allied Science Hospital (Ranchi, Jharkhand)
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: exit
+
+Bot: Thank you for your time! If you have any further questions in the future, feel free to reach out. Goodbye.
+```
+
+### Flow 4: Mixed Language (Hinglish) Conversation
+
+```
+Bot: Hello! Welcome to the Nursing College Admission Consultant Service. I'm here to guide you through our nursing college admission process.
+
+Which language are you comfortable in? Please choose your preferred language (for example, English or Hindi).
+
+User: English and Hindi dono chalega
+
+Bot: Perfect! Are you interested in applying for our B.Sc Nursing program at the college? (Yes/No)
+
+User: Haan interested hun, tell me more
+
+Bot: To check your eligibility:
+
+1. Have you completed Biology in 12th grade?
+2. Are you between 17 and 35 years of age?
+3. Please note that passing the PNT exam is mandatory.
+
+Please confirm these points so we can proceed.
+
+User: Biology thi 12th mein and I'm 19 years old
+
+Bot: Excellent! You meet the eligibility criteria.
+
+Program Information
+B.Sc Nursing (full-time), 60 seats, Delhi
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+
+User: 2 batao hostel ke baare mein
+
+Bot: Hostel Facilities
+• 24×7 water and electricity
+• CCTV surveillance
+• On-site warden
+
+Please choose from the following for more details:
+1. Fee Structure
+2. Hostel facilities
+3. Training
+4. Scholarship options
+5. Hospital Training details
+
+Type "exit" or "quit" to end the chat.
+```
+
+These conversation flows demonstrate the chatbot's key capabilities:
+- **Multi-language support** (English, Hindi, Hinglish)
+- **Eligibility checking** with appropriate responses for qualified/unqualified candidates
+- **Structured information delivery** through numbered menus
+- **Off-topic query redirection** to maintain focus
+- **Natural conversation closure** with polite endings 
+## More supporting Screenshots
+View all project screenshots and images in the [imgs directory](./imgs)
