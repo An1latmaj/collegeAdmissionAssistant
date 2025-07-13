@@ -1,0 +1,7 @@
+![Flow Diagram](flow.png)
+![Chat Example 1](english.png)
+![Chat Example 2](english3.png)
+![Interface](English2.png)
+![Hindi Interface 1](Hindi1.png)
+![Hindi Interface 2](Hindi2.png)
+![Hindi Interface 3](Hindi3.png)
