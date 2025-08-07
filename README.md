@@ -1,4 +1,4 @@
-# Nursing College Admission Assistant - LIA PLUS AI Assignment
+# Nursing College Admission Assistant - Agentic AI
 
 ## Overview
 
